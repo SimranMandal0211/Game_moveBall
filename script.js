@@ -1,50 +1,62 @@
-let circle = document.querySelector('.circle');
-let moveBy = 100;
-
 window.addEventListener('load', () =>{
-    circle.style.position = 'absolute';
-    circle.style.left = 0;
-    circle.style.top = 0;
-});
+    // Ball properties
+    const ball = document.getElementById("ball");
+    const box = document.getElementById("box");
+    const boxWidth = box.offsetWidth;
+    const boxHeight = box.offsetHeight;
+    const ballRadius = ball.offsetWidth / 2;
+    const ballSpeed = 10;
 
 
-window.addEventListener('keydown', (e) =>{
-    // console.log('key: '+e.key);
-    switch(e.key){
-        case ('a' || 'ArrowLeft'):
-            circle.style.left = parseInt(circle.style.left) - moveBy + 'px';
+    // Function to update the ball's position
+    function updateBallPosition(dx, dy) {
+        const ballX = ball.offsetLeft + dx;
+        const ballY = ball.offsetTop + dy;
+
+        // Keep the ball within the box boundaries
+        if((ballX - ballRadius >= 0) &&  ( ballX + ballRadius <= boxWidth) &&   (ballY - ballRadius >= 0) &&  (ballY + ballRadius <= boxHeight)){
+          ball.style.left = ballX + "px";
+          ball.style.top = ballY + "px";
+        }
+      }
+
+     // Function to handle key down events
+     function handleKeyDown(event){
+        let dx = 0;
+        let dy = 0;
+
+        switch(event.key){
+          case "ArrowUp":
+            dy = -ballSpeed;
             break;
-        case ('d' || 'ArrowRight'):
-            circle.style.left = parseInt(circle.style.left) + moveBy + 'px';
+          case "ArrowDown":
+            dy = ballSpeed;
             break;
-        case ('w' || 'ArrowUp'):
-            circle.style.top = parseInt(circle.style.top) - moveBy + 'px';
+          case "ArrowLeft":
+            dx = -ballSpeed;
             break;
-        case ('s' || 'ArrowDown'):
-            circle.style.top = parseInt(circle.style.top) + moveBy + 'px';
+          case "ArrowRight":
+            dx = ballSpeed;
             break;
-        // default: alert("you press wrong key!!");
-    }
-            
+          case "w":
+            dy = -ballSpeed;
+            break;
+          case "s":
+            dy = ballSpeed;
+            break;
+          case "a":
+            dx = -ballSpeed;
+            break;
+          case "d":
+            dx = ballSpeed;
+            break;
+        }
+
+        updateBallPosition(dx, dy);
+      }
+
+    // Event listener for keydown event
+    document.addEventListener("keydown", handleKeyDown);
 });
 
-window.addEventListener('keyup', (e) =>{
-    // console.log('key: '+e.key);
-    switch(e.key){
-        case ('ArrowLeft'):
-            circle.style.left = parseInt(circle.style.left) - moveBy + 'px';
-            break;
-        case ('ArrowRight'):
-            circle.style.left = parseInt(circle.style.left) + moveBy + 'px';
-            break;
-        case ('ArrowUp'):
-            circle.style.top = parseInt(circle.style.top) - moveBy + 'px';
-            break;
-        case ('ArrowDown'):
-            circle.style.top = parseInt(circle.style.top) + moveBy + 'px';
-            break;
-        // default: alert("you press wrong key!!");
-    }
-            
-});
    
